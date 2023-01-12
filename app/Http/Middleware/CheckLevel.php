@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CheckLevel
 {
@@ -14,8 +15,15 @@ class CheckLevel
      * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
-    public function handle(Request $request, Closure $next)
+    public function handle(Request $request, Closure $next, $rules)
     {
+       if(!Auth::check()){
+        return redirect('index');
+       }
+       $user = Auth::user();
+       if($user->level == $rules)
         return $next($request);
+
+        return redirect('index')->with('error', "Anda Tidak Memiliki Akses!!");
     }
 }
