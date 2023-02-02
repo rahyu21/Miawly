@@ -59,8 +59,8 @@
                                                 <td>{{$row->email}}</td>
                                                 <td>{{$row->level}}</td>
                                                 <td>
-                                                    <a href="#modalEditUser {{$row->id}}" data-toggle="modal" class="btn btn-primary btn-xs"><i class=" fa fa-edit"> Edit</i></a>
-                                                    <a href="#modalHapusUser {{$row->id}}" data-toggle="modal" class="btn btn-danger btn-xs"><i class=" fa fa-trash"> Hapus</i></a>
+                                                    <a href="#modalEditUser {{$row->id}}" data-toggle="modal" data-target="#modalEditUser{{$row->id}}" class="btn btn-primary btn-xs"><i class=" fa fa-edit"> Edit</i></a>
+                                                    <a href="#modalHapusUser {{$row->id}}" data-toggle="modal" data-target="#modalHapusUser{{$row->id}}" class="btn btn-danger btn-xs"><i class=" fa fa-trash"> Hapus</i></a>
                                                 </td>
                                             </tr>
                                             @endforeach

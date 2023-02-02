@@ -3,6 +3,7 @@
 <head>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<title>Tugas Akhir</title>
+	<meta name="csrf-token" content="{{ csrf_token() }}">
 	<meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
 	<link rel="icon" href="/assets/img/icon.ico" type="image/x-icon"/>
 	
@@ -81,11 +82,9 @@
 							<ul class="dropdown-menu dropdown-user animated fadeIn">
 								<li>
 									<div class="user-box">
-										<div class="avatar-lg"><img src="/assets/img/profile.jpg" alt="image profile" class="avatar-img rounded"></div>
 										<div class="u-text">
-											{{-- <h4>{{Auth::user()->name}}</h4>
-											<p class="text-muted">{{Auth::user()->email}}</p> --}}
-											<p class="text-muted">2020</p>
+											<h4>{{Auth::user()->name}}</h4>
+											<p class="text-muted">{{Auth::user()->email}}</p>
 										</div>
 									</div>
 								</li>
@@ -109,15 +108,12 @@
 			<div class="sidebar-wrapper scrollbar-inner">
 				<div class="sidebar-content">
 					<div class="user">
-						<div class="avatar-sm float-left mr-2">
-							<img src="/assets/img/profile.jpg" alt="..." class="avatar-img rounded-circle">
-						</div>
 						<div class="info">
 							<a data-toggle="collapse" href="#collapseExample" aria-expanded="true">
-								{{-- <span>
+								<span>
 									{{Auth::user()->name}}
 									<span class="user-level">{{Auth::user()->level}}</span>
-								</span> --}}
+								</span>
 							</a>
 							<div class="clearfix"></div>
 						</div>
@@ -135,34 +131,93 @@
 							</span>
 							<h4 class="text-section">Components</h4>
 						</li>
-						<li class="nav-item">
-							<a data-toggle="collapse" href="#base">
-								<i class="fas fa-layer-group"></i>
-								<p>Data Master</p>
-								<span class="caret"></span>
-							</a>
-							<div class="collapse" id="base">
-								<ul class="nav nav-collapse">
-									<li>
-										<a href="/user">
-											<span class="sub-item">Data User</span>
-										</a>
-									</li>
-								<ul class="nav nav-collapse">
-									<li>
-										<a href="/kategori">
-											<span class="sub-item">Data Kategori</span>
-										</a>
-									</li>
-								<ul class="nav nav-collapse">
-									<li>
-										<a href="/barang">
-											<span class="sub-item">Data Barang</span>
-										</a>
-									</li>
-								</ul>
-							</div>
-						</li>
+						{{-- Transaksi Admin --}}
+						@if(Auth::user()->level=='admin')
+							<li class="nav-item">
+								<a data-toggle="collapse" href="#base">
+									<i class="fas fa-layer-group"></i>
+									<p>Data Master</p>
+									<span class="caret"></span>
+								</a>
+								<div class="collapse" id="base">
+									<ul class="nav nav-collapse">
+										<li>
+											<a href="/user">
+												<span class="sub-item">Data User</span>
+											</a>
+										</li>
+									<ul class="nav nav-collapse">
+										<li>
+											<a href="/kategori">
+												<span class="sub-item">Data Kategori</span>
+											</a>
+										</li>
+									<ul class="nav nav-collapse">
+										<li>
+											<a href="/barang">
+												<span class="sub-item">Data Barang</span>
+											</a>
+										</li>
+									</ul>
+								</div>
+							</li>
+							<li class="nav-item">
+								<a data-toggle="collapse" href="#laporan">
+									<i class="fas fa-file"></i>
+									<p>Data Laporan</p>
+									<span class="caret"></span>
+								</a>
+								<div class="collapse" id="laporan">
+									<ul class="nav nav-collapse">
+										<li>
+											<a href="/lap_user">
+												<span class="sub-item">Laporan Data User</span>
+											</a>
+										</li>
+										<li>
+											<a href="/lap_kategori">
+												<span class="sub-item">Laporan Data Kategori</span>
+											</a>
+										</li>
+										<li>
+											<a href="/lap_barang">
+												<span class="sub-item">Laporan Data Barang</span>
+											</a>
+										</li>
+										<li>
+											<a href="/lap_brg_masuk">
+												<span class="sub-item">Laporan Data Brg Masuk</span>
+											</a>
+										</li>
+										<li>
+											<a href="/lap_brg_keluar">
+												<span class="sub-item">Laporan Data Brg Keluar</span>
+											</a>
+										</li>
+										<li>
+											<a href="/lap_kategori">
+												<span class="sub-item">Laporan Data Kategori</span>
+											</a>
+										</li>
+									</ul>
+								</div>
+							</li>
+						@endif
+						{{-- Transaksi Gudang --}}
+						@if (Auth::user()->level=='gudang')
+							<li class="nav-item">
+								<a href="/brg_masuk">
+									<i class="fas fa-briefcase"></i>
+									<p>Barang Masuk</p>
+								</a>
+							</li>
+							<li class="nav-item">
+								<a href="/brg_keluar">
+									<i class="fas fa-briefcase"></i>
+									<p>Barang Keluar</p>
+								</a>
+							</li>
+						@endif
 					</ul>
 				</div>
 			</div>
@@ -186,6 +241,81 @@
 	<script src="/assets/js/ready.min.js"></script>
 	<!-- Azzara DEMO methods, don't include it in your project! -->
 	<script src="/assets/js/setting-demo.js"></script>
+	{{-- Sweet Alert --}}
+	<script src="/assets/js/plugin/sweetalert.min.js"></script>
+
+	@if (session('success'))
+		<script>
+			//==Class Definition
+			var SweetAlert2Demo = function(){
+				//==Demos
+				var initDemos = function(){
+					swal({
+						tittle : "{{ session('success')}}",
+						text : "{{ session('success')}}",
+						icon : "success",
+						buttons : {
+							confirm : {
+								text : "Confirm Me",
+								value : true,
+								visible : true,
+								classname : "btn btn-success",
+								closemodal : true
+							}
+						}
+					});
+				};
+
+				return {
+					//== Init
+					init = function(){
+						initDemos();
+					},
+				};
+			}();
+
+			//==Class Initialization
+			jQuery(document).ready(function() {
+				SweetAlert2Demo.init();
+			}) ;
+		</script>
+	@endif
+	@if (session('error'))
+		<script>
+			//==Class Definition
+			var SweetAlert2Demo = function(){
+				//==Demos
+				var initDemos = function(){
+					swal({
+						tittle : "{{ session('error')}}",
+						text : "{{ session('error')}}",
+						icon : "error",
+						buttons : {
+							confirm : {
+								text : "Confirm Me",
+								value : true,
+								visible : true,
+								classname : "btn btn-success",
+								closemodal : true
+							}
+						}
+					});
+				};
+
+				return {
+					//== Init
+					init = function(){
+						initDemos();
+					},
+				};
+			}();
+
+			//==Class Initialization
+			jQuery(document).ready(function() {
+				SweetAlert2Demo.init();
+			}) ;
+		</script>
+	@endif
 	<script >
 		$(document).ready(function() {
 			$('#add-row').DataTable({

@@ -26,33 +26,21 @@
 	<div class="wrapper wrapper-login">
 		<div class="container container-login animated fadeIn">
 			<h3 class="text-center">Silakan Login</h3>
-            <form action="cek_login" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('cek_login') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="login-form">
                     <div class="form-group form-floating-label">
-                        <input id="username" name="username" type="text" 
-						{{-- @error('username')is-invalid@enderror --}}
+                        <input id="email" name="email" type="text" 
 						class="form-control input-border-bottom" required>
-                        <label for="username" class="placeholder">Username</label>
-						{{-- @error('username')
-							<div class="invalid-feedback">
-								{{$message}}
-							</div>
-						@enderror --}}
+                        <label for="email" class="placeholder">Email</label>
                     </div>
                     <div class="form-group form-floating-label">
                         <input id="password" name="password" type="password"
-						{{-- @error('password')is-invalid@enderror --}}
 						 class="form-control input-border-bottom" required>
                         <label for="password" class="placeholder">Password</label>
                         <div class="show-password">
                             <i class="flaticon-interface"></i>
                         </div>
-						{{-- @error('password')
-							<div class="invalid-feedback">
-								{{$message}}
-							</div>
-						@enderror --}}
                     </div>
                     <div class="form-action mb-3">
                         <button class="btn btn-primary btn-rounded btn-login" type="submit">Sign In</button>

@@ -55,8 +55,8 @@
                                                 <td>{{$no++}}</td>
                                                 <td>{{$row->nama_kategori}}</td>
                                                 <td>
-                                                    <a href="#modalEditKategori {{$row->id}}" data-toggle="modal" class="btn btn-primary btn-xs"><i class=" fa fa-edit"> Edit</i></a>
-                                                    <a href="#modalHapusKategori {{$row->id}}" data-toggle="modal" class="btn btn-danger btn-xs"><i class=" fa fa-trash"> Hapus</i></a>
+                                                    <a href="#modalEditKategori {{$row->id}}" data-toggle="modal" data-target="#modalEditKategori{{$row->id}}" class="btn btn-primary btn-xs"><i class=" fa fa-edit"> Edit</i></a>
+                                                    <a href="#modalHapusKategori {{$row->id}}" data-toggle="modal" data-target="#modalHapusKategori{{$row->id}}" class="btn btn-danger btn-xs"><i class=" fa fa-trash"> Hapus</i></a>
                                                 </td>
                                             </tr>
                                             @endforeach
@@ -104,7 +104,7 @@
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLongTitle">Edit Kategori</h5>
+                        <h5 class="modal-title" id="exampleModalLongTitle">Edit User</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -115,7 +115,8 @@
                             <input type="hidden" value="{{$d->id}}" name="id" required>
                                 <div class="form-group">
                                     <label for="">Nama Kategori</label>
-                                    <input type="text" value="{{$d->nama_kategori}}" class="form-control" name="nama_kategori" placeholder="Nama Kategori ..." required>
+                                    <input type="text" value="{{$d->name}}" class="form-control" name="name" placeholder="Nama Kategori ..." required>
+                                </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-undo"></i> Close</button>
@@ -129,31 +130,31 @@
 
     <!--Hapus Data-->
     @foreach ($kategori as $g)
-        <div class="modal fade" id="modalHapusKategori{{$g->id}}" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLongTitle">Hapus Kategori</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <form action="/kategori/{{$d->id}}/destroy" method="GET" enctype="multipart/form-data">
-                        @csrf
-                        <div class="modal-body">
-                            <input type="hidden" value="{{$d->id}}" name="id" required>
-                                <div class="form-group">
-                                    <h4>Apakah Anda Ingin Menghapus Data Ini?</h4>
-                                </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-undo"></i> Close</button>
-                            <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i> Hapus</button>
-                        </div>
-                    </form>
+    <div class="modal fade" id="modalHapusKategori{{$g->id}}" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Hapus User</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
+                <form action="/kategori/{{$g->id}}/destroy" method="GET" enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-body">
+                        <input type="hidden" value="{{$d->id}}" name="id" required>
+                            <div class="form-group">
+                                <h4>Apakah Anda Ingin Menghapus Data Ini?</h4>
+                            </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-undo"></i> Close</button>
+                        <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i> Hapus</button>
+                    </div>
+                </form>
             </div>
         </div>
+    </div>
     @endforeach
 
 @endsection

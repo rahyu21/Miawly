@@ -32,7 +32,7 @@
                             <div class="card-header">
                                 <div class="d-flex align-items-center">
                                     <h4 class="card-title">Data Barang</h4>
-                                    <button class="btn btn-primary btn-round ml-auto" data-toggle="modal" data-target="#modalAddUser">
+                                    <button class="btn btn-primary btn-round ml-auto" data-toggle="modal" data-target="#modalAddBarang">
                                         <i class="fa fa-plus"></i>
                                         Add Row
                                     </button>
@@ -48,6 +48,7 @@
                                                 <th>Kategori</th>
                                                 <th>Harga</th>
                                                 <th>Stok</th>
+                                                <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -60,8 +61,8 @@
                                                 <td>Rp.{{number_format($row->harga)}}</td>
                                                 <td>{{$row->stok}}Pcs</td>
                                                 <td>
-                                                    <a href="#modalEditBarang {{$row->id}}" data-toggle="modal" class="btn btn-primary btn-xs"><i class=" fa fa-edit"> Edit</i></a>
-                                                    <a href="#modalHapusBarang {{$row->id}}" data-toggle="modal" class="btn btn-danger btn-xs"><i class=" fa fa-trash"> Hapus</i></a>
+                                                    <a href="#modalEditBarang {{$row->id}}" data-toggle="modal" data-target="#modalEditBarang{{$row->id}}" class="btn btn-primary btn-xs"><i class=" fa fa-edit"> Edit</i></a>
+                                                    <a href="#modalHapusBarang {{$row->id}}" data-toggle="modal" data-target="#modalHapusBarang{{$row->id}}" class="btn btn-danger btn-xs"><i class=" fa fa-trash"> Hapus</i></a>
                                                 </td>
                                             </tr>
                                             @endforeach
@@ -91,7 +92,7 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="">Nama Barang</label>
-                            <input type="text" class="form-control" name="name" placeholder="Nama Barang ..." required>
+                            <input type="text" class="form-control" name="nama_barang" placeholder="Nama Barang ..." required>
                         </div>
                         <div class="form-group">
                             <label for="">Kategori</label>

@@ -2,58 +2,64 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Foundation\Auth\AuthenticateUser;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+// use\App\Model\User;
 use Illuminate\Http\Request;
 
 class AuthController extends Controller
-{
+{    
     public function index()
     {
-        // if ($user = Auth::user()){
-        //     if ($user->level == 'admin'){
-        //         return redirect()->intended('/home');
-        //     }elseif($user->level == 'gudang'){
-        //         return redirect()->intended('/home');
-        //     }
-        // }
-        return view ('index');
+        return view ('auth.login');
     }
-    // public function cek_login (Request $request)
+
+    // public function login(Request $request)
     // {
-        // $request->validate(
-        //     [
-        //         'name' => 'required',
-        //         'password' => 'required'
-        //     ]
-        // );
-    // $kredensial = $request->only('email','password'){
-    //     if (Auth::attempt($kredensial)) {
-    //         $user = Auth::user()
-    //     }else($user->level == 'gudang'){
-    //         return redirect()->intended('/home');
+    //     $credentials = $request->only('email' , 'password');
+
+    //     if (Auth::attempt($credentials))
+    //     {
+    //         return redirect()->intended('/home')->with('success', 'Login Berhasil');
     //     }
-
-    //     return back()->withErrors([
-    //         'name' => 'Username atau Password Salah'
-    //     ])->onlyInput('name');
+    //     else 
+    //     {
+    //        return redirect()->back()->withInput($request->only('email'))->with('error', 'Email Dan Password Salah');
+    //     }
     // }
-    public function cek_login(Request $request)
-    {
-        $password = $request->input('password');
-        $email = $request->input('email');
 
-            if (Auth::attempt(['email' => $email, 'password' => $password]))
-            {
-                return redirect()->intended('/home')->with('success', 'Login Berhasil');
-            }
-            else
-            {
-                return redirect()->intended('/')->with('error', 'Username atau Password Salah');
-            }
-    }
     // public function logout()
     // {
     //     Auth::logout();
-    //     return redirect('/');
+        
+    //     return redirect()->route('login');
     // }
+
+    public function cek_login(Request $request)
+    {
+        $credentials = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required'
+        ]);
+
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+
+            return redirect()->intended('/home')->with('success', 'Login Berhasil');
+        }
+
+        return back()->with('error', 'Login failed!');
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return redirect(route('login'))->with('status', 'Anda telah berhasil logout');
+    }
 }
